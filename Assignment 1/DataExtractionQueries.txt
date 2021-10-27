@@ -1,0 +1,11 @@
+select top 50000 * from posts where posts.ViewCount > 127401
+ORDER BY posts.ViewCount desc
+
+select top 50000 * from posts where posts.ViewCount>74592 and 
+posts.ViewCount < 127401 ORDER BY posts.ViewCount desc
+
+select top 50000 * from posts where posts.ViewCount>53205 and 
+posts.ViewCount < 74592 ORDER BY posts.ViewCount desc
+
+select top 50000 * from posts where posts.ViewCount> 41320 and 
+posts.ViewCount < 53205 ORDER BY posts.ViewCount desc

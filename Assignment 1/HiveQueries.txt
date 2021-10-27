@@ -1,0 +1,16 @@
+
+move the file to hdfs by
+Hdfs dfs -copyFromLocal /home/priya_pandey2/postProcessedData.txt /
+
+--------------------------HIVE------------------------------------------
+hive
+
+CREATE TABLE TEMP(Id INT ,Score INT,ViewCount INT,Body VARCHAR(10000),OwnerUserId INT,Title STRING,Tags STRING)ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+
+LOAD DATA INPATH 'hdfs://cluster-70ca-m/postProcessedData.txt' INTO TABLE TEMP;
+
+----------------------------Query------------------------------------------
+
+1. select id, title, score from stack order by score desc limit 10;
+2. select owneruserid, sum(score) as OverallScore from stack where owneruserid IS NOT NULL group by OwnerUserId order by OverallScore desc limit 10;
+3. select count (distinct owneruserid) from stack where (lower(body) like '%cloud%' or lower(title) like '%cloud%' or lower(tags) like '%cloud%');

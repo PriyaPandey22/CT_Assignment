@@ -1,0 +1,15 @@
+pig -x local
+
+initialData = LOAD 'preprocessedMergedData.txt' USING PigStorage(',') AS(dummy:chararray,Id:chararray, PostTypeId:chararray, 
+AcceptedAnswerId:chararray, ParentId:chararray, CreationDate:chararray, DeletionDate:chararray, Score:int, 
+ViewCount:int,Body:chararray, OwnerUserId:chararray, OwnerDisplayName:chararray, LastEditorUserId:chararray, 
+LastEditorDisplayName:chararray, LastEditDate:chararray, LastActivityDate:chararray, Title:chararray, Tags:chararray, 
+AnswerCount:chararray, CommentCount:chararray, FavoriteCount:chararray, ClosedDate:chararray, CommunityOwnedDate:chararray, 
+ContentLicense:chararray);
+
+requiredData = foreach initialData generate  Id as Id, Score as Score,ViewCount as ViewCount, REPLACE(Body,',*','') as Body, 
+OwnerUserId as OwnerUserId, REPLACE(Title,',*','') as Title, REPLACE(Tags,',*','') as Tags;
+
+finalData = filter requiredData by (OwnerUserId is not null) and (Score is not null);
+
+STORE finalData INTO 'postProcessedData.txt' USING PigStorage(',');
